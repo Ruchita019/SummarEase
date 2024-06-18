@@ -1,0 +1,11 @@
+streamlit
+youtube_transcript_api
+google-generativeai
+python-dotenv
+streamlit-on-Hover-tabs
+langchain
+langchain_community
+PyPDF2
+chromadb
+Faiss-cpu
+langchain_google_genai
