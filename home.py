@@ -13,7 +13,7 @@ from menu.pdf import PDF_Summarizer
 
 
 def home():
-    st.header(" Welcome to Text-Summarizer")
+    st.header(" Welcome to SummarEase")
     st.write("There are different types of summarizer in this web-app like Youtube summarizer, Blog Summarizer and PDF Summarizer")
 
 
