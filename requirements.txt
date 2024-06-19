@@ -9,3 +9,6 @@ PyPDF2
 chromadb
 langchain_google_genai
 faiss-cpu
+requests
+beautifulsoup4 
+transformers
