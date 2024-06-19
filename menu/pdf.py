@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 import streamlit as st
 import google.generativeai as genai
 from PyPDF2 import PdfReader
-# from io import BytesIO
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
@@ -33,7 +32,7 @@ def get_text_chunks(text):
     return chunks
 
 def get_vector_store(text_chunks):
-    embeddings=GoogleGenerativeAIEmbeddings(model = "embedding-001")
+    embeddings = GoogleGenerativeAIEmbeddings(model = "models/embedding-001")
     vector_store = FAISS.from_texts(text_chunks,embedding=embeddings)
     vector_store.save_local("faiss_index")
 
@@ -46,7 +45,7 @@ def get_conversational_chain():
                         
                         Answer: '''
      
-    model = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.3)
+    model = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0.3)
     
     prompt1 = PromptTemplate(template=prompt_template, input_variables=['context','question'])
     chain = load_qa_chain(model,chain_type="stuff", prompt=prompt1)
@@ -54,9 +53,9 @@ def get_conversational_chain():
 
 
 def user_input(user_question):
-    embeddings = GoogleGenerativeAIEmbeddings(model= 'embedding-001')
+    embeddings = GoogleGenerativeAIEmbeddings(model= 'models/embedding-001')
 
-    new_db = FAISS.load_local('faiss_index',embeddings)
+    new_db = FAISS.load_local('faiss_index',embeddings, allow_dangerous_deserialization=True)
     docs = new_db.similarity_search(user_question)
 
     chain = get_conversational_chain()
@@ -65,7 +64,7 @@ def user_input(user_question):
         {"input_documents":docs, "question": user_question}, return_only_outputs=True
     )
 
-    print(response)
+    # print(response)
     st.write("Reply: ", response['output_text'])
 
 prompt = '''You are a expert text summarizer. You would be given a transcripts and you have to summarize it in 250 words.
@@ -79,8 +78,8 @@ def text_summarizer(transcript, prompt):
     return response.text
 
 def PDF_Summarizer():
-    st.title("PDF Summarizer")
-    pdf_docs = st.file_uploader("Upload your PDF Files", type=["pdf"], accept_multiple_files=True)
+    st.header("PDF Summarizer")
+    pdf_docs = st.file_uploader("Upload your PDF Files", accept_multiple_files=True)
         
     if st.button("Submit & Process"):
         with st.spinner("Processing..."):
@@ -95,12 +94,12 @@ def PDF_Summarizer():
         user_input(user_question)
 
 
-    # if st.button("Get Summary"):
-    #     text =  get_pdf_text(pdf_docs)
+    if st.button("Get Summary"):
+        text =  get_pdf_text(pdf_docs)
         
-    #     if text:
-    #         summary= text_summarizer(text, prompt)
-    #         st.markdown('## Detailed Notes: ')
-    #         st.write(summary)
+        if text:
+            summary= text_summarizer(text, prompt)
+            st.markdown('## Detailed Notes: ')
+            st.write(summary)
 
 
