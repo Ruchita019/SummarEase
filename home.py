@@ -1,11 +1,10 @@
 import streamlit as st
 
-#st.set_page_config("College.ai", page_icon='src/Logo College.png', layout='centered')
 st.markdown('<style>' + open('./style.css').read() + '</style>', unsafe_allow_html=True)
 
 # from streamlit_lottie import st_lottie 
 from st_on_hover_tabs import on_hover_tabs
-# import json
+
 
 from menu.youtube import Youtube_Summarizer 
 from menu.blog import Blog_Summarizer
@@ -13,7 +12,7 @@ from menu.pdf import PDF_Summarizer
 
 
 def home():
-    st.header(" Welcome to SummarEase")
+    st.title(" Welcome to SummarEase")
     st.write("There are different types of summarizer in this web-app like Youtube summarizer, Blog Summarizer and PDF Summarizer")
 
 
