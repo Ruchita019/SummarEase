@@ -11,7 +11,9 @@ from langchain_community.vectorstores import FAISS
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.chains.question_answering import load_qa_chain
 from langchain.prompts import PromptTemplate
-
+from gtts import gTTS
+import base64
+from io import BytesIO
 
 #load the environment
 load_dotenv()
@@ -77,6 +79,20 @@ def text_summarizer(transcript, prompt):
     response = model.generate_content(prompt + transcript)
     return response.text
 
+# Remove punctuation from text
+def remove_punctuation(text):
+    return text.replace('*', '')
+
+# Text-to-Speech
+def text_to_speech(text, lang='en'):
+    text = remove_punctuation(text)
+    tts = gTTS(text=text, lang=lang, slow=False)
+    audio_fp = BytesIO()
+    tts.write_to_fp(audio_fp)
+    audio_fp.seek(0)
+    audio_base64 = base64.b64encode(audio_fp.read()).decode()
+    return audio_base64
+
 def PDF_Summarizer():
     st.header("PDF Summarizer")
     pdf_docs = st.file_uploader("Upload your PDF Files", accept_multiple_files=True)
@@ -95,11 +111,27 @@ def PDF_Summarizer():
 
 
     if st.button("Get Summary"):
-        text =  get_pdf_text(pdf_docs)
+        with st.spinner("Processing..."):
+            text =  get_pdf_text(pdf_docs)
         
-        if text:
-            summary= text_summarizer(text, prompt)
-            st.markdown('## Detailed Notes: ')
-            st.write(summary)
+            if text:
+                summary= text_summarizer(text, prompt)
+                st.markdown('## Detailed Notes: ')
+                st.write(summary)
+            st.success("Your summary is here!! ")
+
+        
+        with st.spinner("Processing..."):
+            audio_base64 = text_to_speech(summary)
+            audio_html = f"""
+                    <audio controls>
+                                    <source src="data:audio/mp3;base64,{audio_base64}" type="audio/mp3">
+                                    Your browser does not support the audio element.
+                                </audio>
+                                """            
+            st.markdown("## Audio File")
+            st.markdown(audio_html, unsafe_allow_html=True)
+            st.success("Here is your Audio Summary")
+                
 
 
