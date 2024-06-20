@@ -29,16 +29,16 @@ def text_summarizer(transcript, prompt):
     return response.text
 
 def Blog_Summarizer():
-    st.title("Blog Summarizer")
+    st.header("Blog Summarizer")
     blog_url = st.text_input("Enter the blog link:")
 
-    if blog_url:
-        if st.button("Get Summary"):
-            blog_text = fetch_blog_content(blog_url)
+    
+    if st.button("Get Summary"):
+        blog_text = fetch_blog_content(blog_url)
         
-            if blog_text:
-                summary= text_summarizer(blog_text, prompt)
-                st.markdown('## Detailed Notes: ')
-                st.write(summary)
-            else:
-                st.write("Unable to fetch blog content. Please check the URL and try again.")
+        if blog_text:
+            summary= text_summarizer(blog_text, prompt)
+            st.markdown('## Detailed Notes: ')
+            st.write(summary)
+        else:
+            st.write("Unable to fetch blog content. Please check the URL and try again.")

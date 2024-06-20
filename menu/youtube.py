@@ -34,7 +34,7 @@ def text_summarizer(transcript, prompt):
     return response.text
 
 def Youtube_Summarizer():
-    st.title("Youtube Video Summarizer")
+    st.header("Youtube Video Summarizer")
     yt_url = st.text_input("Enter the youtube link:")
 
 
