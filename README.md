@@ -1,6 +1,8 @@
 # SummarEase
 SummarEase is a powerful text summarization web application built using Streamlit, designed to summarize YouTube videos, blogs, and PDF documents. The application leverages Google Gemini for advanced text summarization capabilities, ensuring concise and informative summaries for users.
 
+### View the demo: [SummarEase](https://summarease.streamlit.app/)
+
 ## Features
 **Summarization of Various Content Types:** Summarize YouTube videos, blogs, and PDF documents seamlessly within the application.<br>
 **Integration with Google Gemini:** Utilizes Google Gemini API for accurate and advanced text summarization.<br>
@@ -13,3 +15,5 @@ SummarEase is a powerful text summarization web application built using Streamli
 **BeautifulSoup:** Python library for web scraping and data extraction.<br>
 **LangChain:** Python library for natural language processing tasks, enhancing summarization accuracy.<br>
 <br>
+
+
