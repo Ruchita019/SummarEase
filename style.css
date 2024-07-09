@@ -3,8 +3,6 @@ section[data-testid='stSidebar'] {
     flex-shrink: unset !important;
 }
 
-
-
 @media(hover:hover) and (min-width: 600px) and (max-width: 769px){
 
     header[data-testid="stHeader"] {
