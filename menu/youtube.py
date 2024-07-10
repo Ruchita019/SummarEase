@@ -55,11 +55,6 @@ def Youtube_Summarizer():
     st.header("Youtube Video Summarizer")
     yt_url = st.text_input("Enter the youtube link:")
 
-
-    if yt_url:
-        video_id = yt_url.split("=")[1]
-        st.image(f'https://img.youtube.com/vi/{video_id}/0.jpg', use_column_width=True)
-
     if st.button("Get Summary"):
         with st.spinner("Processing..."):
             transcript_text = extract_transcript_details(yt_url)
